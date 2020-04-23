@@ -108,16 +108,16 @@ public abstract class AButtonPressed : MonoBehaviour
     public abstract void RightPressed();
 
     //No esta obligada a implementar estos metodos, pero estan disponibles para definirlos y usarlos
-    public void SpacePressed() { } 
-    public void LeftClickPressed() { }
-    public void RightClickPressed() { }
-    public void QPressed() { }
-    public void EPressed() { }
-    public void RPressed() { }
-    public void Alpha1Pressed() { }
-    public void Alpha2Pressed() { }
-    public void Alpha3Pressed() { }
-    public void Alpha4Pressed() { }
-    public void Alpha5Pressed() { }
+    public virtual void SpacePressed() { } 
+    public virtual void LeftClickPressed() { }
+    public virtual void RightClickPressed() { }
+    public virtual void QPressed() { }
+    public virtual void EPressed() { }
+    public virtual void RPressed() { }
+    public virtual void Alpha1Pressed() { }
+    public virtual void Alpha2Pressed() { }
+    public virtual void Alpha3Pressed() { }
+    public virtual void Alpha4Pressed() { }
+    public virtual void Alpha5Pressed() { }
 
 }
