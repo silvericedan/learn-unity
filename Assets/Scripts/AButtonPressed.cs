@@ -9,29 +9,33 @@ public abstract class AButtonPressed : MonoBehaviour
 
     public void PressUp()
     {
-        if (Input.GetKey(KeyCode.W | KeyCode.UpArrow)){
+        if (Input.GetKey(KeyCode.W) | Input.GetKey(KeyCode.UpArrow))
+        {
             UpPressed();
         }
     }
 
     public void PressDown()
     {
-        if (Input.GetKey(KeyCode.S | KeyCode.DownArrow)){
-            UpPressed();
+        if (Input.GetKey(KeyCode.S) | Input.GetKey(KeyCode.DownArrow))
+        {
+            DownPressed();
         }
     }
 
     public void PressLeft()
     {
-        if (Input.GetKey(KeyCode.A | KeyCode.LeftArrow)){
-            UpPressed();
+        if (Input.GetKey(KeyCode.A) | Input.GetKey(KeyCode.LeftArrow))
+        {
+            LeftPressed();
         }
     }
 
     public void PressRight()
     {
-        if (Input.GetKey(KeyCode.D | KeyCode.RightArrow)){
-            UpPressed();
+        if (Input.GetKey(KeyCode.D) | Input.GetKey(KeyCode.RightArrow))
+        {
+            RightPressed();
         }
     }
 
