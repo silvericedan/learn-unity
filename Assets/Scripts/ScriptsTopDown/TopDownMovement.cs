@@ -13,24 +13,42 @@ public class TopDownMovement : AButtonPressed
 	private float focusSpeed = 4;
 	private float currentSpeed;
 
+	// Distancia maxima a la que se puede mover el jugador desde el centro, en unidades
+	// Para que la distancia sea siempre la misma, el tamaño de la ventana tiene que estar
+	// configurado en Edit / Project Settings
+	private float horizontalLimit;
+	private float verticalLimit;
+
 	public override void DownPressed()
 	{
-		tfm.Translate(new Vector3(0, -currentSpeed, 0) * Time.deltaTime);
+		if (tfm.position.y > -verticalLimit)
+		{
+			tfm.Translate(new Vector3(0, -currentSpeed, 0) * Time.deltaTime);
+		}
 	}
 
 	public override void UpPressed()
 	{
-		tfm.Translate(new Vector3(0, currentSpeed, 0) * Time.deltaTime);
+		if (tfm.position.y < verticalLimit)
+		{
+			tfm.Translate(new Vector3(0, currentSpeed, 0) * Time.deltaTime);
+		}
 	}
 
 	public override void LeftPressed()
 	{
-		tfm.Translate(new Vector3(-currentSpeed, 0, 0) * Time.deltaTime);
+		if (tfm.position.x > -horizontalLimit)
+		{
+			tfm.Translate(new Vector3(-currentSpeed, 0, 0) * Time.deltaTime);
+		}
 	}
 
 	public override void RightPressed()
 	{
-		tfm.Translate(new Vector3(currentSpeed, 0, 0) * Time.deltaTime);
+		if (tfm.position.x < horizontalLimit)
+		{
+			tfm.Translate(new Vector3(currentSpeed, 0, 0) * Time.deltaTime);
+		}
 	}
 
 	public override void SpacePressed()
@@ -44,6 +62,20 @@ public class TopDownMovement : AButtonPressed
     {
         tfm = GetComponent<Transform>();
         currentSpeed = speed;
+
+        // Obtener la coordenada de la esquina superior derecha, relativa a la camara
+        // y obtener la coordenada equivalente del mundo
+        // Esto funciona porque la camara está fija, si la camara se moviera o siguiera
+        // al jugador, esto va a dar cualquier cosa
+        Vector2 topRightCorner = new Vector2(1, 1);
+     	Vector2 edgeVector = Camera.main.ViewportToWorldPoint(topRightCorner);
+
+     	// En base a eso, obtener la distancia maxima de movimiento
+     	horizontalLimit = edgeVector.x;
+     	verticalLimit = edgeVector.y;
+
+     	Debug.Log(horizontalLimit);
+     	Debug.Log(verticalLimit);
     }
 
     // Update is called once per frame
