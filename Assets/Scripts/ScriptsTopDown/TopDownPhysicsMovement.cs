@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; // para poder usar texto
 
 public class TopDownPhysicsMovement : AButtonPressed
 {
 	Rigidbody2D rb;
+	public Text scoreText;
+
+	int score;
 
 	public override void DownPressed()
 	{
@@ -31,6 +35,7 @@ public class TopDownPhysicsMovement : AButtonPressed
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        score = 0;
     }
 
     // Update is called once per frame
@@ -55,12 +60,15 @@ public class TopDownPhysicsMovement : AButtonPressed
     {
     	if (collision.gameObject.tag == "Item")
     	{
-    		Debug.Log("activaste el trigger de un item");
-
     		// Acá el item se destruye al contacto sin hacer nada mas
     		// si el item da puntos, municion, etc aca se puede poner que aumente 
     		// el valor de una variable o algo asi
+    		score += 10;
+    		scoreText.text = "Score: " + score.ToString();
+
     		Destroy(collision.gameObject);
+
+    		Debug.Log(score);
     	}
     }
 
