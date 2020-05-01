@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlatformerMove : AButtonPressed
 {
     Rigidbody2D rb;
+    public Camera camera;
+    private Vector3 posCameraZ;
+    private Transform cameraTf;
+
+    private Animator anim;
 
     private float impulse=0.3f;
     private float lateral=1.0f;
@@ -12,7 +18,7 @@ public class PlatformerMove : AButtonPressed
 
     public override void DownPressed()
     {
-        throw new System.NotImplementedException();
+        anim.SetBool("isRunning", false);
     }
 
     public override void LeftPressed()
@@ -27,7 +33,7 @@ public class PlatformerMove : AButtonPressed
 
     public override void UpPressed()
     {
-        throw new System.NotImplementedException();
+        anim.SetBool("isRunning", true);
     }
 
     public override void SpacePressed()
@@ -54,12 +60,18 @@ public class PlatformerMove : AButtonPressed
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        cameraTf = camera.GetComponent<Transform>();
+        anim = GetComponent<Animator>();
+        anim.SetBool("isRunning", false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        posCameraZ.x = this.transform.position.x;
+        posCameraZ.z = -10f;
+        posCameraZ.y = 1.5f;
+        cameraTf.transform.position = posCameraZ;
     }
 
     private void FixedUpdate()
@@ -67,6 +79,8 @@ public class PlatformerMove : AButtonPressed
         PressRight();
         PressLeft();
         PressSpace();
+        PressUp();
+        PressDown();
     }
 
 }
