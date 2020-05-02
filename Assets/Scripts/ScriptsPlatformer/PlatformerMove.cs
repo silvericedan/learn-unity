@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class PlatformerMove : AButtonPressed
 {
+    [SerializeField] private LayerMask platformsLayerMask;
     Rigidbody2D rb;
-    public Camera camera;
+    public Camera camera1;
     private Vector3 posCameraZ;
     private Transform cameraTf;
+    private CapsuleCollider2D capsuleCollider2d;
+    private float runVelocity = 5f;
 
     private Animator anim;
 
@@ -23,12 +26,12 @@ public class PlatformerMove : AButtonPressed
 
     public override void LeftPressed()
     {
-        rb.AddForce(transform.right * -lateral);
+        rb.velocity = new Vector2(-runVelocity, rb.velocity.y);
     }
 
     public override void RightPressed()
     {
-        rb.AddForce(transform.right * lateral);
+        rb.velocity = new Vector2(+runVelocity, rb.velocity.y);
     }
 
     public override void UpPressed()
@@ -38,29 +41,27 @@ public class PlatformerMove : AButtonPressed
 
     public override void SpacePressed()
     {
-        if (grounded)
+        if (IsGrounded())
         {
-            rb.AddForce(transform.up * impulse, ForceMode2D.Impulse);
-            grounded = false;
+            rb.velocity = Vector2.up * 5f;
+            
         }     
     }
 
-    // esta funcion la llama Unity directamente cuando hay una colision con el objeto con la "tag" asignada en el inspector
-    // no se llama en start ni en update, solo se declara dentro del script y listo.
-    private void OnCollisionEnter2D(Collision2D collision)
+    private bool IsGrounded()
     {
-        if (collision.transform.gameObject.tag == "Terreno")
-        {
-            grounded = true;
-            Debug.Log("grounded");
-        }
+        RaycastHit2D raycastHit2d = Physics2D.CapsuleCast(capsuleCollider2d.bounds.center, capsuleCollider2d.bounds.size,capsuleCollider2d.direction, 0f, Vector2.down, .03f, platformsLayerMask);
+        Debug.Log(raycastHit2d.collider);
+        return raycastHit2d.collider != null;
+      
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        capsuleCollider2d = GetComponent<CapsuleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
-        cameraTf = camera.GetComponent<Transform>();
+        cameraTf = camera1.GetComponent<Transform>();
         anim = GetComponent<Animator>();
         anim.SetBool("isRunning", false);
     }
