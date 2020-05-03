@@ -2092,6 +2092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 2099089095}
+  prefab: {fileID: 2068032580050547358, guid: cb35e02d203a8734b92207b56a050309, type: 3}
 --- !u!50 &1801726904
 Rigidbody2D:
   serializedVersion: 4

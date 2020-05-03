@@ -8,6 +8,8 @@ public class TopDownPhysicsMovement : AButtonPressed
 	Rigidbody2D rb;
 	public Text scoreText;
 
+    public GameObject prefab;
+
 	int score;
 
 	public override void DownPressed()
@@ -30,18 +32,44 @@ public class TopDownPhysicsMovement : AButtonPressed
 		rb.AddForce(transform.up);
 	}
 
+    public override void SpacePressed()
+    {
+        Debug.Log("espacio");
+        Shoot();
+    }
+
+    public void Shoot()
+    {
+        GameObject clone = Instantiate(prefab, transform.position, Quaternion.identity);
+        Rigidbody2D clonerb = clone.GetComponent<Rigidbody2D>();
+        clonerb.velocity = new Vector3(3, 0, 0);
+
+        // Debug.Log(clone);
+        // Debug.Log(clonerb);
+
+        // Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        // Debug.DrawRay(ray.direction, ray.origin);
+        // Debug.Log(ray);
+        // if (Physics.Raycast(ray))
+        // {
+        //     Debug.Log("el rayo colisionó!!! bien!!!");
+        // }
+    }
+
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         score = 0;
+
+        Shoot();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        PressSpace();
     }
 
     private void FixedUpdate()
