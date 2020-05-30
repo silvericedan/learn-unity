@@ -19,6 +19,12 @@ public class TopDownMovement : AButtonPressed
 	private float horizontalLimit;
 	private float verticalLimit;
 
+	public GameObject bullet;
+
+	private float shootIntervalTime = 0.2f;
+	public float timer = 0.00f;
+	public bool canShoot = true;
+
 	public override void DownPressed()
 	{
 		if (tfm.position.y > -verticalLimit)
@@ -55,7 +61,23 @@ public class TopDownMovement : AButtonPressed
 	{
 		// Al pulsar espacio cambiar la velocidad
 		currentSpeed = focusSpeed;
+
+		Shoot();
 	}
+
+	public void Shoot()
+    {
+    	if (canShoot)
+    	{
+	        GameObject clone = Instantiate(bullet, transform.position, Quaternion.identity);
+	        Rigidbody2D clonerb = clone.GetComponent<Rigidbody2D>();
+	        clonerb.velocity = new Vector3(0, 10, 0);
+	        clonerb.transform.localScale = new Vector3(5, 5, 5);
+
+	        canShoot = false;
+	        timer = shootIntervalTime;
+    	}
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -92,6 +114,15 @@ public class TopDownMovement : AButtonPressed
         if (Input.GetKeyUp(KeyCode.Space))
         {
         	currentSpeed = speed;
+        }
+
+        if (timer <= 0.00f)
+        {
+        	canShoot = true;
+        }
+        else
+        {
+        	timer -= Time.deltaTime;	
         }
 
     }
